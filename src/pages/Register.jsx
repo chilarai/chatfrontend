@@ -66,17 +66,15 @@ export default function Register() {
         axios
           .post(`${process.env.REACT_APP_API_URL}/user/signup`, details)
           .then((res) => {
-            console.log(res);
             localStorage.clear();
             localStorage.setItem("token", JSON.stringify(res.data.token));
             navigate("/login");
           })
       } else {
-        throw new Error("Validation failed");
+        toast.error("Validation failed", toastOptions);
       }
     } catch (error) {
-      console.error(error);
-      alert(error.message);
+      toast.error(error.Error(), toastOptions);
     }
   };
   
@@ -84,10 +82,12 @@ export default function Register() {
     <>
       <FormContainer>
         <form action="" onSubmit={(event) => handleSubmit(event)}>
-          <div className="brand">
+        <div className="logoInnerAlign">
             <LazyLoad once>
-              <img src={coachkenbest} alt="" />
+              <img src={coachkenbest} alt="" height="100" className="logoInner"/>
             </LazyLoad>
+          </div>
+          <div className="brand">
             <h1>Ask Coach Canion</h1>
           </div>
           <input
@@ -134,6 +134,12 @@ const FormContainer = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #D3D3D3;
+  .logoInnerAlign{
+    text-align:center;
+  }
+  .logoInner{
+    background-color: white;
+  }
   .brand {
     display: flex;
     align-items: center;

@@ -10,7 +10,6 @@ const handlePasswordChange = async (event) => {
         axios
           .post(`${process.env.REACT_APP_API_URL}/user/${userId}/change-password`, details) // Send the request to the user's ID
           .then((res) => {
-            console.log(res);
             localStorage.clear();
             localStorage.setItem("token", JSON.stringify(res.data.token));
             navigate("/login");

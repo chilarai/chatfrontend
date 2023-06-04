@@ -69,31 +69,30 @@ export default function Settings() {
       if (isValid) {
         // Get the user ID and new password from your form inputs or state
         const userId = getUserId(); // Replace with your own logic to get the user ID
-        const data = values.password
+        const password = values.password
 
         // Send the change password request
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/user/update-password`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/user/change-password`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ userId, data }),
+          body: JSON.stringify({ userId, password }),
         });
 
         // Check the response status
         if (response.ok) {
           // Password change successful
-          alert('Password changed successfully');
+          toast.error("Password change successful", toastOptions);
           // Perform any necessary actions after password change
         } else {
           // Password change failed
           const errorData = await response.json();
-          throw new Error(errorData.error);
+          toast.error(errorData.error, toastOptions);
         }
       }
     } catch (error) {
-      console.error(error);
-      alert('Password change failed');
+      toast.error("Password change failed", toastOptions);
     }
   };
 
@@ -109,10 +108,12 @@ export default function Settings() {
     <>
       <FormContainer>
         <form action="" onSubmit={(event) => handlePasswordChange(event)}>
-          <div className="brand">
+        <div className="logoInnerAlign">
             <LazyLoad once>
-              <img src={coachkenbest} alt="" />
+              <img src={coachkenbest} alt="" height="100" className="logoInner"/>
             </LazyLoad>
+          </div>
+          <div className="brand">
             <h1>Ask Coach Canion</h1>
           </div>
           <input
@@ -129,7 +130,7 @@ export default function Settings() {
           />
           <button type="Change Password">Change Password</button>
         </form>
-        <NavLink to="/deleteaccount" >Delete Account</NavLink>
+        {/* <NavLink to="/deleteaccount" >Delete Account</NavLink> */}
         <button type="LogOut" onClick={handleLogOut}>LogOut</button>
 
       </FormContainer>
@@ -147,6 +148,12 @@ const FormContainer = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #D3D3D3;
+  .logoInnerAlign{
+    text-align:center;
+  }
+  .logoInner{
+    background-color: white;
+  }
   .brand {
     display: flex;
     align-items: center;

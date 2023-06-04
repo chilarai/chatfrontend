@@ -28,20 +28,8 @@ export default function Settings() {
   };
 
   const handleValidation = () => {
-    const { password, confirmPassword, email } = values;
-    if (password !== confirmPassword) {
-      toast.error(
-        "Password and confirm password should be same.",
-        toastOptions
-      );
-      return false;
-    } else if (password.length < 8) {
-      toast.error(
-        "Password should be equal or greater than 8 characters.",
-        toastOptions
-      );
-      return false;
-    } else if (email === "") {
+    const { email } = values;
+    if (email === "") {
       toast.error("Email is required.", toastOptions);
       return false;
     }
@@ -52,7 +40,6 @@ export default function Settings() {
     event.preventDefault();
     try {
       const details = values;
-      event.preventDefault();
       const isValid = handleValidation();
       if (isValid) {
         const token = localStorage.getItem("token");
@@ -63,18 +50,15 @@ export default function Settings() {
         };
   
         axios
-          .put(`${process.env.REACT_APP_API_URL}/user/change-password`, details, config)
+          .put(`${process.env.REACT_APP_API_URL}/user/forgot-password`, details, config)
           .then((res) => {
-            console.log(res);
             localStorage.clear();
-            navigate("/");
           });
       } else {
-        throw new Error("Password change failed");
+        throw new Error("User not found");
       }
     } catch (error) {
-      console.error(error);
-      alert(error.message);
+      toast.error(error, toastOptions);
     }
   };
 
@@ -82,10 +66,12 @@ export default function Settings() {
     <>
       <FormContainer>
         <form action="" onSubmit={(event) => handlePasswordChange(event)}>
-          <div className="brand">
+        <div className="logoInnerAlign">
             <LazyLoad once>
-              <img src={coachkenbest} alt="" />
+              <img src={coachkenbest} alt="" height="100" className="logoInner"/>
             </LazyLoad>
+          </div>
+          <div className="brand">
             <h1>Ask Coach Canion</h1>
           </div>
           <input
@@ -94,19 +80,8 @@ export default function Settings() {
             name="email"
             onChange={(e) => handleChange(e)}
           />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={(e) => handleChange(e)}
-          />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            onChange={(e) => handleChange(e)}
-          />
-          <button type="Change Password">Change Password</button>
+          
+          <button type="Forgot Password">Forgot Password</button>
         </form>
 
       </FormContainer>
@@ -124,6 +99,12 @@ const FormContainer = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #D3D3D3;
+  .logoInnerAlign{
+    text-align:center;
+  }
+  .logoInner{
+    background-color: white;
+  }
   .brand {
     display: flex;
     align-items: center;

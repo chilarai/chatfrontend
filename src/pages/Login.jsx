@@ -28,10 +28,10 @@ export default function Login() {
   const validateForm = () => {
     const { email, password } = values;
     if (email === "") {
-      toast.error("Email and Password is required.", toastOptions);
+      toast.error("Email is required.", toastOptions);
       return false;
     } else if (password === "") {
-      toast.error("Email and Password is required.", toastOptions);
+      toast.error("Password is required.", toastOptions);
       return false;
     }
     return true;
@@ -50,24 +50,21 @@ export default function Login() {
         axios
           .post(`${process.env.REACT_APP_API_URL}/user/login`, details) // Replace the URL with the login endpoint
           .then((res) => {
-            console.log(res);
             localStorage.setItem("token", JSON.stringify(res.data.token));
             navigate("/"); // Replace the "/login" route with the appropriate route after successful login
           })
           .catch((error) => {
             if (error.response && error.response.status === 401) {
-              alert("Incorrect password or username"); // Display error message for incorrect password or username
+              toast.error("Incorrect username or password.", toastOptions);
             } else {
-              console.error(error);
-              alert(error.message);
+              toast.error(error.Error(), toastOptions);
             }
           });
       } catch (error) {
-        console.error(error);
-        alert(error.message);
+        toast.error(error.Error(), toastOptions);
       }
     } else {
-      throw new Error("Validation failed");
+      toast.error("Validation failed", toastOptions);
     }
   };
   
@@ -76,10 +73,13 @@ export default function Login() {
     <>
       <FormContainer>
         <form action="" onSubmit={(event) => handleSubmit(event)}>
-          <div className="brand">
+          <div className="logoInnerAlign">
             <LazyLoad once>
-              <img src={coachkenbest} alt="" />
+              <img src={coachkenbest} alt="" height="100" className="logoInner"/>
             </LazyLoad>
+          </div>
+          <div className="brand">
+            
             <h1>Ask Coach Canion</h1>
           </div>
           <input
@@ -116,6 +116,12 @@ const FormContainer = styled.div`
   gap: 1rem;
   align-items: center;
   background-color: #D3D3D3;
+  .logoInnerAlign{
+    text-align:center;
+  }
+  .logoInner{
+    background-color: white;
+  }
   .brand {
     display: flex;
     align-items: center;
@@ -123,6 +129,7 @@ const FormContainer = styled.div`
     justify-content: center;
     img {
       height: 2.2rem;
+
     }
     h1 {
       color: white;
