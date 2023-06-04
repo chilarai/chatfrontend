@@ -72,7 +72,7 @@ export default function Settings() {
         const data = values.password
 
         // Send the change password request
-        const response = await fetch('http://localhost:5000/user/update-password', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/user/update-password`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

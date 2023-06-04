@@ -60,7 +60,7 @@ export default function DeleteAccount() {
         const userId = getUserId(); // Replace with your own logic to get the user ID
 
         // Send the delete account request
-        const response = await fetch('http://localhost:5000/user/delete-account', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/user/delete-account`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

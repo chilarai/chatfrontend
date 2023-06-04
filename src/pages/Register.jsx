@@ -64,7 +64,7 @@ export default function Register() {
       const isValid = handleValidation();
       if (isValid) {
         axios
-          .post("http://localhost:4000/user/signup", details)
+          .post(`${process.env.REACT_APP_API_URL}/user/signup`, details)
           .then((res) => {
             console.log(res);
             localStorage.clear();

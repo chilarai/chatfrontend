@@ -48,7 +48,7 @@ export default function Login() {
         };
   
         axios
-          .post("http://localhost:5000/user/login", details) // Replace the URL with the login endpoint
+          .post(`${process.env.REACT_APP_API_URL}/user/login`, details) // Replace the URL with the login endpoint
           .then((res) => {
             console.log(res);
             localStorage.setItem("token", JSON.stringify(res.data.token));

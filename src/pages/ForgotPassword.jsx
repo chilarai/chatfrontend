@@ -63,7 +63,7 @@ export default function Settings() {
         };
   
         axios
-          .put(`http://localhost:5000/user/change-password`, details, config)
+          .put(`${process.env.REACT_APP_API_URL}/user/change-password`, details, config)
           .then((res) => {
             console.log(res);
             localStorage.clear();
