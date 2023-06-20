@@ -17,10 +17,7 @@ export default function ChatContainer({ currentChat, socket }) {
   useEffect(() => {
     // Replace with your static data for messages
     const staticMessages = [
-      { fromSelf: true, message: "Hello!" },
-      { fromSelf: false, message: "Hi!" },
-      { fromSelf: true, message: "How are you?" },
-      { fromSelf: false, message: "I'm good, thanks!" },
+      { fromSelf: false, message: "Hi I am Ken! How can I help you today?" },
     ];
     setMessages(staticMessages);
   }, []);
@@ -31,15 +28,31 @@ export default function ChatContainer({ currentChat, socket }) {
 
   const handleSendMsg = async (msg) => {
     // Replace with your static data for sending messages
+    receiveResponse(msg)
     const newMessage = { fromSelf: true, message: msg };
     setMessages([...messages, newMessage]);
   };
 
-  useEffect(() => {
-    // Replace with your static data for arrival messages
-    const arrivalMessage = { fromSelf: false, message: "New message" };
-    setArrivalMessage(arrivalMessage);
-  }, []);
+  const receiveResponse = async (msg) => {
+
+    let url = process.env.REACT_APP_API_URL + "/chat/chat"
+    fetch(url, {
+      method: 'POST',
+      mode: "cors",
+      headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({"prompt": msg})
+    }).then(data => data.json()).then(data => setResponse(data))
+  }
+
+
+  const setResponse = (reply) => {
+    const newMessage = { fromSelf: false, message: reply.message };
+    setArrivalMessage(newMessage)
+  }
+
 
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
