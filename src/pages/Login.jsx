@@ -57,11 +57,11 @@ export default function Login() {
             if (error.response && error.response.status === 401) {
               toast.error("Incorrect username or password.", toastOptions);
             } else {
-              toast.error(error.Error(), toastOptions);
+              toast.error(error.message, toastOptions);
             }
           });
       } catch (error) {
-        toast.error(error.Error(), toastOptions);
+        toast.error(error.message, toastOptions);
       }
     } else {
       toast.error("Validation failed", toastOptions);

@@ -74,7 +74,7 @@ export default function Register() {
         toast.error("Validation failed", toastOptions);
       }
     } catch (error) {
-      toast.error(error.Error(), toastOptions);
+      toast.error(error.message, toastOptions);
     }
   };
   

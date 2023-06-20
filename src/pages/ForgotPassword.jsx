@@ -58,7 +58,7 @@ export default function Settings() {
         throw new Error("User not found");
       }
     } catch (error) {
-      toast.error(error, toastOptions);
+      toast.error(error.message, toastOptions);
     }
   };
 
